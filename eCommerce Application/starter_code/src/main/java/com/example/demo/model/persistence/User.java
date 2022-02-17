@@ -28,9 +28,9 @@ public class User {
 	private String password;
 
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	/*@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(nullable = false)
-	private byte[] salt;
+	private byte[] salt;*/
 
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -41,34 +41,13 @@ public class User {
 
 
 	public User(){
-		this.salt=createSalt();
-	}
-
-	public User(String username, String password, Cart cart) {
-		this.username = username;
-		this.password = password;
-		this.cart = cart;
-		this.salt=createSalt();
-		log.debug(" user created "+this +"!");
 	}
 
 
 
-
-
-	// Method to generate a Salt
-	private static byte[] createSalt() {
-		SecureRandom random = new SecureRandom();
-		byte[] salt = new byte[16];
-		random.nextBytes(salt);
-		log.debug(" salt created "+salt );
+	/*public byte[] getSalt() {
 		return salt;
-	}
-
-
-	public byte[] getSalt() {
-		return salt;
-	}
+	}*/
 
 
 	public String getPassword(){
@@ -111,7 +90,7 @@ public class User {
 				"id=" + id +
 				", username='" + username + '\'' +
 				", password='" + password + '\'' +
-				", salt=" + Arrays.toString(salt) +
+				//", salt=" + Arrays.toString(salt) +
 				", cart=" + cart +
 				'}';
 	}

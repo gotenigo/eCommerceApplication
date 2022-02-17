@@ -23,17 +23,22 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
  *
  *  This filter is added via the config of WebSecurityConfigurerAdapter under Configure method
  *
+ *   It extends from  BasicAuthenticationFilter that is the Spring Security level 4th of the filter chain proxy which is the "Authentication processing mechanisms"
+ *
+ *
  *
  ********************************************/
 @Component
 //This class is responsible for the authorization process. This class extends the BasicAuthenticationFilter class.
 // It overrides on method, and defines another custom method.
 public class JWTAuthenticationVerficationFilter extends BasicAuthenticationFilter {
-	
+
+
+
+    //Constructor
 	public JWTAuthenticationVerficationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
-
 
 
 
@@ -51,7 +56,7 @@ public class JWTAuthenticationVerficationFilter extends BasicAuthenticationFilte
         UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        chain.doFilter(req, res);
+        chain.doFilter(req, res); // chain is a FilterChain Object. FilterChain is provided by the servlet container to the developer giving a view into the invocation chain of a filtered request for a resource. Filters use the FilterChain to invoke the next filter in the chain, or if the calling filter is the last filter in the chain, to invoke the resource at the end of the chain.
     }
 
 

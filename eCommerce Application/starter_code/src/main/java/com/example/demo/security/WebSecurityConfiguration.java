@@ -40,11 +40,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll() // We allow only POST on SIGN_UP_URL (defined in bespoke Class SecurityConstants)
+                .antMatchers("/js/**","/css/**","/images/*","/h2/**").permitAll() // needed for H2 console mode
                 .anyRequest().authenticated()   // Any request requires authentication
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager())) //Adds a Filter that must be an instance of or extend one of the Filters provided within the Security framework. The method ensures that the ordering of the Filters is automatically taken care of. Here it's UsernamePasswordAuthenticationFilter
                 .addFilter(new JWTAuthenticationVerficationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+
+        http.
+                //csrf().disable(). // needed for H2 console mode
+                headers().frameOptions().disable(); // needed for H2 console mode
+
+
     }
 
 

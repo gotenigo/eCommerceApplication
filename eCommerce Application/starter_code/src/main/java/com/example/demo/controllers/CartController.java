@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import com.example.demo.model.persistence.repositories.ItemRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.ModifyCartRequest;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {
@@ -34,6 +36,10 @@ public class CartController {
 	
 	@PostMapping("/addToCart")
 	public ResponseEntity<Cart> addTocart(@RequestBody ModifyCartRequest request) {
+
+		log.info("POST /api/cart/addToCart "+ request);
+
+
 		User user = userRepository.findByUsername(request.getUsername());
 		if(user == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -42,15 +48,26 @@ public class CartController {
 		if(!item.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		Cart cart = user.getCart();
+		Cart cart = user.getCart(); // a Cart is a list of item
+
 		IntStream.range(0, request.getQuantity())
-			.forEach(i -> cart.addItem(item.get()));
-		cartRepository.save(cart);
+			.forEach(i -> cart.addItem(item.get())); // we load item into the Cart (into the List)
+
+		cartRepository.save(cart);  // we save into the database
+
 		return ResponseEntity.ok(cart);
 	}
+
+
+
+
 	
 	@PostMapping("/removeFromCart")
 	public ResponseEntity<Cart> removeFromcart(@RequestBody ModifyCartRequest request) {
+
+		log.info("POST /api/cart/removeFromCart "+ request);
+
+
 		User user = userRepository.findByUsername(request.getUsername());
 		if(user == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -65,5 +82,9 @@ public class CartController {
 		cartRepository.save(cart);
 		return ResponseEntity.ok(cart);
 	}
+
+
+
+
 		
 }

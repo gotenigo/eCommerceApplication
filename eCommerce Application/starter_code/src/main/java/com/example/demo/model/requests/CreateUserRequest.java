@@ -37,4 +37,16 @@ public class CreateUserRequest {
 	}
 
 
+	@Override
+	public String toString() {
+		return "CreateUserRequest{" +
+				"username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", confirmPassword='" + confirmPassword + '\'' +
+				'}';
+	}
+
+
+
+
 }

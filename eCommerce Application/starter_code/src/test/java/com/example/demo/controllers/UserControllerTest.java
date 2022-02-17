@@ -1,6 +1,10 @@
 package com.example.demo.controllers;
 
 import com.example.demo.SareetaApplication;
+import com.example.demo.Service.CartService;
+import com.example.demo.Service.ItemService;
+import com.example.demo.Service.OrderService;
+import com.example.demo.Service.UserService;
 import com.example.demo.TestUtils;
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.User;
@@ -32,6 +36,9 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = SareetaApplication.class)*/
 public class UserControllerTest {
 
+    private UserService userService;
+    private CartService cartService;
+
 
     private UserController userController;
     private UserRepository userRepository= mock(UserRepository.class);
@@ -44,17 +51,19 @@ public class UserControllerTest {
     @Before
     public void setUP() throws NoSuchFieldException, IllegalAccessException {
 
-        userController = new UserController();
-        TestUtils.injectObjects(userController, "userRepository", userRepository);
-        TestUtils.injectObjects(userController, "cartRepository", cartRepository);
-        TestUtils.injectObjects(userController, "bCryptPasswordEncoder",bCryptPasswordEncoder );
+        userService= new UserService();
+        cartService = new CartService();
+        userController = new UserController(userService,cartService,bCryptPasswordEncoder  );
+
+        TestUtils.injectObjects(userService, "userRepository", userRepository); // Mock Database handler
+        TestUtils.injectObjects(cartService, "cartRepository", cartRepository); // Mock Database handler
 
     }
 
 
 
     @Test
-    public void create_user_happy_path() {
+    public void TestCreate_user_happy_path() {
 
         //stubbing
         when(bCryptPasswordEncoder.encode(isA(String.class))).thenReturn("thisIsHashed"); //the password is salted, so we need to  check the String
@@ -79,7 +88,7 @@ public class UserControllerTest {
 
 
     @Test
-    public void findAll() {
+    public void TestFindAll() {
 
         User user = new User();
         Cart cart = new Cart();
@@ -102,7 +111,7 @@ public class UserControllerTest {
 
 
     @Test
-    public void findById() {
+    public void TestFindById() {
 
         User user = new User();
         Cart cart = new Cart();
@@ -114,6 +123,27 @@ public class UserControllerTest {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user)); //the password is salted, so we need to  check the String
         //System.out.println("userController.findAll() ="+userController.findAll());
         ResponseEntity<User> response = userController.findById(1L);
+
+        assertNotNull(response);
+        assertEquals("# Find ALl User #",200, response.getStatusCodeValue());
+
+    }
+
+
+
+    @Test
+    public void TestFindByUserName() {
+
+        User user = new User();
+        Cart cart = new Cart();
+        user.setUsername("gg");
+        user.setPassword("password");
+        user.setCart(cart);
+
+        //stubbing
+        when(userRepository.findByUsername(isA(String.class))).thenReturn(user); //the password is salted, so we need to  check the String
+        //System.out.println("userController.findAll() ="+userController.findAll());
+        ResponseEntity<User> response = userController.findByUserName(user.getUsername());
 
         assertNotNull(response);
         assertEquals("# Find ALl User #",200, response.getStatusCodeValue());

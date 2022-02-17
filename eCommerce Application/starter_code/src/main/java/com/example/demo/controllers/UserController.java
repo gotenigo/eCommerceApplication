@@ -5,6 +5,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.Service.CartService;
+import com.example.demo.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,35 +32,54 @@ import com.example.demo.model.requests.CreateUserRequest;
 public class UserController {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 	
 	@Autowired
-	private CartRepository cartRepository;
+	private CartService CartService;
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
 
+	public UserController(UserService userService, com.example.demo.Service.CartService cartService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.userService = userService;
+		CartService = cartService;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+
+
 	@GetMapping("/all")
 	public ResponseEntity<  List<User> > findAll() {
-		return ResponseEntity.of(  Optional.of(userRepository.findAll()) );
+
+		log.info("Get /api/user/all ");
+
+		return ResponseEntity.of(  Optional.of(userService.findAll()) );
 
 	}
 
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
-		return ResponseEntity.of(userRepository.findById(id));
+
+		log.info("Get /api/user/id/"+id);
+
+
+		return ResponseEntity.of(userService.findByUserById(id));
 	}
 
 
 
 	@GetMapping("/{username}")
 	public ResponseEntity<User> findByUserName(@PathVariable String username) {
-		User user = userRepository.findByUsername(username);
+
+		log.info("Get /api/user/"+ username);
+
+		User user = userService.findByUserName(username);
 		return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
 	}
+
+
 
 
 
@@ -66,32 +87,33 @@ public class UserController {
 	@PostMapping("/create")
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
 
-		log.info("call on createUser");
+		log.info("POST /api/user/create "+ createUserRequest);
 
 		User user = new User();
 		user.setUsername(createUserRequest.getUsername());
 		Cart cart = new Cart();
-		cartRepository.save(cart);
+		//CartService.save(cart);  // ??????This should not be needed with hibernate ???
 		user.setCart(cart);
-		if(createUserRequest.getPassword().length()<7 ||
-				!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
-			//System.out.println("Error - Either length is less than 7 or pass and conf pass do not match. Unable to create ",
-			//		createUserRequest.getUsername());
+
+		String password = createUserRequest.getPassword();
+		String username = createUserRequest.getUsername();
+
+
+		if(password.length()<7 || !password.equals(createUserRequest.getConfirmPassword())){
+
+			log.error("=> issue with User "+username+" -  Password is not compliant with Internal Policy. Either password length is less than 7 or Password & Confirmation password do not match");
+
 			return ResponseEntity.badRequest().build();
 		}
 
-		//Hashing the password !!
-		String passwordToHash = createUserRequest.getPassword();
 
-		//System.out.println("passwordToHash="+passwordToHash);
-		String securePassword = get_SecurePassword(passwordToHash, user.getSalt(), "MD5");
-		//System.out.println("securePassword="+securePassword);
+		//bcrypt has salts built into the generated hashes to prevent rainbow table attacks. bcrypt = the hash and the salt concatenated.
+		String HashedPassword =bCryptPasswordEncoder.encode(password); // Use password-hashing function "bcrypt" to Hash the password
 
-		String encodedPassword =bCryptPasswordEncoder.encode(securePassword);
-		user.setPassword(encodedPassword);
-		//System.out.println("encodedPassword="+encodedPassword);
+		user.setPassword(HashedPassword);
+		//log.debug("HashedPassword="+HashedPassword);
 
-		userRepository.save(user);
+		userService.save(user);
 		return ResponseEntity.ok(user);
 	}
 
@@ -101,30 +123,7 @@ public class UserController {
 
 
 
-	// Method to generate the hash.
-	//It takes a password and the Salt as input arguments
-	private static String get_SecurePassword(String passwordToHash, byte[] salt, String algorithm ){
-		String generatedPassword = null;
-		try {
-			MessageDigest md = MessageDigest.getInstance(algorithm);
 
-			if(salt!=null) {
-				md.update(salt);
-			}
-
-			byte[] bytes = md.digest(passwordToHash.getBytes());
-			StringBuilder sb = new StringBuilder();
-			for(int i=0; i< bytes.length ;i++)
-			{
-				sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-			}
-			generatedPassword = sb.toString();
-		}
-		catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		return generatedPassword;
-	}
 
 
 

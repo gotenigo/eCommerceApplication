@@ -24,7 +24,7 @@ the filter chain proxy:
         "1": "org.springframework.security.web.context.SecurityContextPersistenceFilter",
         "2": "org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter",
         "3": "org.springframework.security.web.header.HeaderWriterFilter",
-        "4": "org.springframework.security.web.csrf.CsrfFilter",
+        "4": "org.springframework.security.web.csrf.CsrfFilter",  (UsernamePasswordAuthenticationFilter, CasAuthenticationFilter, BasicAuthenticationFilter etc - so that the SecurityContextHolder can be modified to contain a valid Authentication request token)
         "5": "org.springframework.security.web.savedrequest.RequestCacheAwareFilter",
         "6": "org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter",
         "7": "org.springframework.security.web.authentication.AnonymousAuthenticationFilter",
