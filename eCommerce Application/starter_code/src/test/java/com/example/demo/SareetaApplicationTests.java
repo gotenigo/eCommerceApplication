@@ -7,6 +7,7 @@ import com.example.demo.controllers.UserController;
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.requests.CreateUserRequest;
+import com.example.demo.model.requests.ModifyCartRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +53,8 @@ public class SareetaApplicationTests {
 	@Autowired
 	private MockMvc mvc;
 
-	@Autowired
-	RestTemplateBuilder restTemplateBuilder;
+	//@Autowired
+	//RestTemplateBuilder restTemplateBuilder;
 
 
 
@@ -136,6 +137,21 @@ public class SareetaApplicationTests {
 	public void TestAddCart() {
 
 
+		//1.check no user exist
+		ResponseEntity<List<User>> findALlResponse = userController.findAll();
+		assertEquals(0, findALlResponse.getBody().size());
+
+		//2.create a new user
+		CreateUserRequest createUserRequest = CreateUser();
+		ResponseEntity<User> response = userController.createUser(createUserRequest);
+
+		assertNotNull(response);
+		assertEquals(200, response.getStatusCodeValue());
+
+
+
+
+
 	}
 
 
@@ -161,6 +177,18 @@ public class SareetaApplicationTests {
 		userRequest.setConfirmPassword("testPassword");
 
 		return userRequest;
+	}
+
+
+
+	private  static ModifyCartRequest CartRequest(){
+
+		ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+		modifyCartRequest.setUsername("test");
+		modifyCartRequest.setQuantity(2);
+		modifyCartRequest.setItemId(1);
+
+		return modifyCartRequest;
 	}
 
 
