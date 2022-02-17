@@ -1,0 +1,397 @@
+{
+	"info": {
+		"_postman_id": "efb80457-23de-466e-b73b-1c52b67b1362",
+		"name": "eCommerce Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User control",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\" : \"password\",\r\n  \"confirmPassword\" : \"password\",\r\n  \"username\" : \"Eva\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\" : \"password\",\r\n  \"username\" : \"Eva\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODIzODV9.sDg-3GOHzOCYeh9075AtVnLh67oqyLSl8I-ffNsHbmmp5IulEGSJaoSiM0ai-Wa0rcrgcvlFS1iOku7ZBfuyeg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart Control",
+			"item": [
+				{
+					"name": "Add to Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODE0ODF9.zdO5FMG20g7n3X_mgk_uGfEXduoyVhsszSwLAOuJiS8mO_r0QF8fMQRV3WYCw399XL3OI3ywRi3LroLhymJxKQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemId\" : 1,\r\n  \"quantity\" : 1,\r\n  \"username\" : \"Eva\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cart/addToCart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cart",
+								"addToCart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODE0ODF9.zdO5FMG20g7n3X_mgk_uGfEXduoyVhsszSwLAOuJiS8mO_r0QF8fMQRV3WYCw399XL3OI3ywRi3LroLhymJxKQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemId\" : 1,\r\n  \"quantity\" : 1,\r\n  \"username\" : \"Eva\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cart/removeFromCart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cart",
+								"removeFromCart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Item Control",
+			"item": [
+				{
+					"name": "get Items ByName",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODIzODV9.sDg-3GOHzOCYeh9075AtVnLh67oqyLSl8I-ffNsHbmmp5IulEGSJaoSiM0ai-Wa0rcrgcvlFS1iOku7ZBfuyeg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/item/name/zozo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"item",
+								"name",
+								"zozo"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODEyMzV9.p01sWN6wEzHvXlqBVs7VeRL007OLwIzdt4laol07w4661fTSDCxWNCB88lM8lsSKzpY6iyOCRflQFNsT6IScew",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODIzODV9.sDg-3GOHzOCYeh9075AtVnLh67oqyLSl8I-ffNsHbmmp5IulEGSJaoSiM0ai-Wa0rcrgcvlFS1iOku7ZBfuyeg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/item/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"item",
+								"1"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODExNTl9.Bg_MbzIqwZ6GHTh5KXz2aAu5je_auh4eQ_mvLXNwXjj1bW_7jUu9oLHuK1bCxiQH6nqEXKRW6geQwuqxvFrN4A",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODIzODV9.sDg-3GOHzOCYeh9075AtVnLh67oqyLSl8I-ffNsHbmmp5IulEGSJaoSiM0ai-Wa0rcrgcvlFS1iOku7ZBfuyeg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/item",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"item"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODE0ODF9.zdO5FMG20g7n3X_mgk_uGfEXduoyVhsszSwLAOuJiS8mO_r0QF8fMQRV3WYCw399XL3OI3ywRi3LroLhymJxKQ",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Controller",
+			"item": [
+				{
+					"name": "Submit an Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODIzODV9.sDg-3GOHzOCYeh9075AtVnLh67oqyLSl8I-ffNsHbmmp5IulEGSJaoSiM0ai-Wa0rcrgcvlFS1iOku7ZBfuyeg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/order/submit/Eva",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"order",
+								"submit",
+								"Eva"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Order History",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmEiLCJleHAiOjE2NDU5ODIzODV9.sDg-3GOHzOCYeh9075AtVnLh67oqyLSl8I-ffNsHbmmp5IulEGSJaoSiM0ai-Wa0rcrgcvlFS1iOku7ZBfuyeg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/order/history/Eva",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"order",
+								"history",
+								"Eva"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

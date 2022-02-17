@@ -1,0 +1,37 @@
+Spring Security Reference : https://docs.spring.io/spring-security/site/docs/4.2.1.RELEASE/reference/htmlsingle/
+Filter Ordering : https://docs.spring.io/spring-security/site/docs/4.2.1.RELEASE/reference/htmlsingle/#filter-ordering
+
+Looking at the current stable release 4.2.1 documentation, section 13.3 Filter Ordering you could see the whole filter chain's filter organization:
+
+The order that filters are defined in the chain is very important. Irrespective of which filters you are actually using, the order should be as follows:
+
+1) ChannelProcessingFilter, because it might need to redirect to a different protocol
+2) SecurityContextPersistenceFilter, so a SecurityContext can be set up in the SecurityContextHolder at the beginning of a web request, and any changes to the SecurityContext can be copied to the HttpSession when the web request ends (ready for use with the next web request)
+3) ConcurrentSessionFilter, because it uses the SecurityContextHolder functionality and needs to update the SessionRegistry to reflect ongoing requests from the principal
+4) Authentication processing mechanisms - UsernamePasswordAuthenticationFilter, CasAuthenticationFilter, BasicAuthenticationFilter etc - so that the SecurityContextHolder can be modified to contain a valid Authentication request token
+5) The SecurityContextHolderAwareRequestFilter, if you are using it to install a Spring Security aware HttpServletRequestWrapper into your servlet container
+6) The JaasApiIntegrationFilter, if a JaasAuthenticationToken is in the SecurityContextHolder this will process the FilterChain as the Subject in the JaasAuthenticationToken
+7) RememberMeAuthenticationFilter, so that if no earlier authentication processing mechanism updated the SecurityContextHolder, and the request presents a cookie that enables remember-me services to take place, a suitable remembered Authentication object will be put there
+8) AnonymousAuthenticationFilter, so that if no earlier authentication processing mechanism updated the SecurityContextHolder, an anonymous Authentication object will be put there
+9) ExceptionTranslationFilter, to catch any Spring Security exceptions so that either an HTTP error response can be returned or an appropriate AuthenticationEntryPoint can be launched
+10) FilterSecurityInterceptor, to protect web URIs and raise exceptions when access is denied
+
+
+
+the filter chain proxy:
+
+{
+        "1": "org.springframework.security.web.context.SecurityContextPersistenceFilter",
+        "2": "org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter",
+        "3": "org.springframework.security.web.header.HeaderWriterFilter",
+        "4": "org.springframework.security.web.csrf.CsrfFilter",  (UsernamePasswordAuthenticationFilter, CasAuthenticationFilter, BasicAuthenticationFilter etc - so that the SecurityContextHolder can be modified to contain a valid Authentication request token)
+        "5": "org.springframework.security.web.savedrequest.RequestCacheAwareFilter",
+        "6": "org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter",
+        "7": "org.springframework.security.web.authentication.AnonymousAuthenticationFilter",
+        "8": "org.springframework.security.web.session.SessionManagementFilter",
+        "9": "org.springframework.security.web.access.ExceptionTranslationFilter",
+        "10": "org.springframework.security.web.access.intercept.FilterSecurityInterceptor"
+}
+
+
+
