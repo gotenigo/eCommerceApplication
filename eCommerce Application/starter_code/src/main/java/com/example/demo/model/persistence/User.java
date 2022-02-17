@@ -41,6 +41,12 @@ public class User {
 
 
 	public User(){
+		this.cart=new Cart();
+	}
+
+	public User(String username, String password) {
+		this.username=username;
+		this.password=password;
 	}
 
 
@@ -90,8 +96,7 @@ public class User {
 				"id=" + id +
 				", username='" + username + '\'' +
 				", password='" + password + '\'' +
-				//", salt=" + Arrays.toString(salt) +
-				", cart=" + cart +
+				", cart=" + cart.getId() +
 				'}';
 	}
 }

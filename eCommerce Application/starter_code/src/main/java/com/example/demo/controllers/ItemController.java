@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,15 @@ public class ItemController {
 	private ItemRepository itemRepository;
 	
 	@GetMapping
-	public ResponseEntity<List<Item>> getItems() {
+	public ResponseEntity<List<Item>> getAllItems() {
 
-		log.info("Get /api/item/all ");
+		log.debug("Get /api/item ");
 
-		return ResponseEntity.ok(itemRepository.findAll());
+		List<Item> itemList= itemRepository.findAll();
+
+		log.debug("=> getAllItems return  "+ itemList);
+
+		return ResponseEntity.ok(itemList);
 	}
 
 
@@ -35,8 +40,12 @@ public class ItemController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Item> getItemById(@PathVariable Long id) {
 
-		log.info("Get /api/item/id "+id);
-		return ResponseEntity.of(itemRepository.findById(id));
+		log.debug("Get /api/item/id "+id);
+
+		Optional<Item> item = itemRepository.findById(id);
+
+		log.debug("=> getItemById return  "+ item);
+		return ResponseEntity.of(item);
 	}
 
 
@@ -44,10 +53,13 @@ public class ItemController {
 	@GetMapping("/name/{name}")
 	public ResponseEntity<List<Item>> getItemsByName(@PathVariable String name) {
 
-		log.info("Get /api/item/name/"+name);
+		log.debug("Get /api/item/name/"+name);
 
 
 		List<Item> items = itemRepository.findByName(name);
+
+		log.debug("=> getItemsByName return  "+ items);
+
 		return items == null || items.isEmpty() ? ResponseEntity.notFound().build()
 				: ResponseEntity.ok(items);
 			

@@ -101,7 +101,7 @@ public class Cart {
 		return "Cart{" +
 				"id=" + id +
 				", items=" + items +
-				", user=" + user +
+				//", user=" + user +
 				", total=" + total +
 				'}';
 	}

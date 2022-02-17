@@ -54,7 +54,11 @@ public class UserController {
 
 		log.info("Get /api/user/all ");
 
-		return ResponseEntity.of(  Optional.of(userService.findAll()) );
+		List<User> userList = userService.findAll();
+
+		log.debug("=> findAll return  "+ userList);
+
+		return ResponseEntity.of(  Optional.of(userList) );
 
 	}
 
@@ -64,8 +68,12 @@ public class UserController {
 
 		log.info("Get /api/user/id/"+id);
 
+		Optional<User> user = userService.findByUserById(id);
 
-		return ResponseEntity.of(userService.findByUserById(id));
+		log.debug("=> findById return  "+ user);
+
+		return ResponseEntity.of( user );
+
 	}
 
 
@@ -76,6 +84,9 @@ public class UserController {
 		log.info("Get /api/user/"+ username);
 
 		User user = userService.findByUserName(username);
+
+		log.debug("=> findByUserName return  "+ user.getId());
+
 		return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
 	}
 
@@ -113,8 +124,13 @@ public class UserController {
 		user.setPassword(HashedPassword);
 		//log.debug("HashedPassword="+HashedPassword);
 
-		userService.save(user);
-		return ResponseEntity.ok(user);
+
+		User vUser = userService.save(user);
+
+		log.debug("=> createUser return  "+ vUser);
+
+
+		return ResponseEntity.ok(vUser);
 	}
 
 

@@ -1,11 +1,8 @@
 package com.example.demo.controllers;
 
-import com.example.demo.SareetaApplication;
 import com.example.demo.Service.CartService;
-import com.example.demo.Service.ItemService;
-import com.example.demo.Service.OrderService;
 import com.example.demo.Service.UserService;
-import com.example.demo.TestUtils;
+import com.example.demo.Utils.TestUtils;
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
@@ -13,14 +10,9 @@ import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -63,10 +55,14 @@ public class UserControllerTest {
 
 
     @Test
-    public void TestCreate_user_happy_path() {
+    public void testCreate_user_happy_path() {
 
         //stubbing
         when(bCryptPasswordEncoder.encode(isA(String.class))).thenReturn("thisIsHashed"); //the password is salted, so we need to  check the String
+        User vUser = new User("test",bCryptPasswordEncoder.encode("dummy"));
+        vUser.setCart(new Cart());
+        when(userRepository.save(isA(User.class))).thenReturn(vUser); //the password is salted, so we need to  check the String
+
 
         CreateUserRequest userRequest = new CreateUserRequest();
         userRequest.setUsername("test");

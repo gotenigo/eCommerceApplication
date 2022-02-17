@@ -41,7 +41,11 @@ public class OrderController {
 			return ResponseEntity.notFound().build();
 		}
 		UserOrder order = UserOrder.createFromCart(user.getCart());
-		orderRepository.save(order);
+
+		UserOrder userOrder = orderRepository.save(order);
+
+		log.debug("=> submit return  "+ userOrder);
+
 		return ResponseEntity.ok(order);
 	}
 
@@ -56,8 +60,13 @@ public class OrderController {
 
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
+
+			log.warn("=> User not found ");
 			return ResponseEntity.notFound().build();
 		}
+
+		log.debug("=> getOrdersForUser return  "+ user);
+
 		return ResponseEntity.ok(orderRepository.findByUser(user));
 	}
 }
