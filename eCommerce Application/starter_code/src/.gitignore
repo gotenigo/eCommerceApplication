@@ -7,7 +7,6 @@
 
 # BlueJ files
 *.ctxt
-test
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -42,9 +41,9 @@ buildNumber.properties
 
 # IntelliJ project files
 .idea
+.idea/
 *.iml
 *.iws
 *.ipr
 out
 gen
-!/src/main/resources/documentation/
