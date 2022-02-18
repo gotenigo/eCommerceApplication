@@ -37,7 +37,7 @@ public class OrderController {
 	@PostMapping("/submit/{username}")
 	public ResponseEntity<UserOrder> submit(@PathVariable String username) {
 
-		log.info("Post /submit/"+username);
+		log.info("Post /api/order/submit/"+username);
 
 		User user = userService.findByUsername(username);
 		if(user == null) {
@@ -71,7 +71,7 @@ public class OrderController {
 	@GetMapping("/history/{username}")
 	public ResponseEntity<List<UserOrder>> getOrdersForUser(@PathVariable String username) {
 
-		log.info("Get /history/"+username);
+		log.info("Get /api/order/history/"+username);
 
 
 		User user = userService.findByUsername(username);
