@@ -26,8 +26,14 @@ public class UserService {
 
     public User save(User user){
 
-        return userRepository.save(user);
+        if (findByUsername(user.getUsername())!=null) {
+            return null;
+        }else{
+            return userRepository.save(user);
+        }
     }
+
+
 
     public User findByUsername(String name ){
 
@@ -35,6 +41,8 @@ public class UserService {
 
         return user;
     }
+
+
 
 
 

@@ -49,7 +49,7 @@ public class OrderController {
 		UserOrder userOrder = orderService.save(order);
 
 		if (userOrder!=null){
-			log.debug("=>Order was successfully saved into the Database ");
+			log.debug("=>Order "+userOrder+" was successfully saved into the Database ");
 		}
 		else{
 			log.error("=>Order creating failed ");

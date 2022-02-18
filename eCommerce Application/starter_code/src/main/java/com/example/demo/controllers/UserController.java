@@ -130,11 +130,17 @@ public class UserController {
 
 
 		User vUser = userService.save(user);
+		if(vUser==null){
+			log.warn("it appears user "+user.getUsername()+" already exists!");
+		}
+
+		ResponseEntity<User> response = ResponseEntity.ok(vUser);
 
 		log.debug("=> createUser return  "+ vUser);
+		log.debug("=> createUser return  "+ response);
 
 
-		return ResponseEntity.ok(vUser);
+		return response;
 	}
 
 
