@@ -29,8 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -240,8 +239,13 @@ public class SareetaApplicationTests {
 
 
 		ResponseEntity<List<UserOrder>> orderResponseList = orderController.getOrdersForUser(createUserRequest.getUsername());
-		assertNotNull(orderResponseList);
+		assertNotNull(orderResponseList.getBody());
 		assertEquals(200, orderResponseList.getStatusCodeValue());
+
+		//test order submit failure
+		orderResponseList = orderController.getOrdersForUser("zozo");
+		assertNull(orderResponseList.getBody());
+		assertEquals(404, orderResponseList.getStatusCodeValue());
 
 
 	}

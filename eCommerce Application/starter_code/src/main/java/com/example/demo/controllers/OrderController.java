@@ -41,16 +41,28 @@ public class OrderController {
 
 		User user = userService.findByUsername(username);
 		if(user == null) {
-			log.error("submit failed as username ("+user+") was not found");
+			log.error("Order submit failed as username ("+user+") was not found");
 			return ResponseEntity.notFound().build();
 		}
 
 		UserOrder order = UserOrder.createFromCart(user.getCart());
 		UserOrder userOrder = orderService.save(order);
 
-		log.debug("=> submit return  "+ userOrder);
+		if (userOrder!=null){
+			log.debug("=>Order was successfully saved into the Database ");
+		}
+		else{
+			log.error("=>Order creating failed ");
+		}
 
-		return ResponseEntity.ok(userOrder);
+
+		ResponseEntity<UserOrder> response = ResponseEntity.ok(userOrder);
+
+
+		//log.debug("=>Order submit response.Header - return  "+ response);
+		log.debug("=>Order submit response.getStatusCodeValue - return  "+ response.getStatusCodeValue());
+
+		return response;
 	}
 
 
