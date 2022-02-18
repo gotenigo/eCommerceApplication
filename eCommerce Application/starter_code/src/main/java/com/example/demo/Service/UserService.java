@@ -1,7 +1,9 @@
 package com.example.demo.Service;
 
+import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.UserRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User findByUsername(String name ){
 
+        User user =userRepository.findByUsername(name);
+
+        return user;
+    }
 
 
 

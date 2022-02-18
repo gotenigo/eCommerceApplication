@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,23 +29,26 @@ import com.example.demo.model.requests.CreateUserRequest;
 
 @Slf4j
 @RestController
+@Transactional
 @RequestMapping("/api/user")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private CartService CartService;
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	//@Autowired
+	//private CartService CartService;
+
+
 
 
 
 	public UserController(UserService userService, com.example.demo.Service.CartService cartService, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.userService = userService;
-		CartService = cartService;
+		///CartService = cartService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 

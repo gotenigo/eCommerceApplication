@@ -2,9 +2,12 @@ package com.example.demo.controllers;
 
 import java.util.List;
 
+import com.example.demo.Service.OrderService;
+import com.example.demo.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +28,10 @@ public class OrderController {
 	
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 	
 	@Autowired
-	private OrderRepository orderRepository;
+	private OrderService orderService;
 	
 	
 	@PostMapping("/submit/{username}")
@@ -36,17 +39,15 @@ public class OrderController {
 
 		log.info("Post /submit/"+username);
 
-		User user = userRepository.findByUsername(username);
+		User user = userService.findByUsername(username);
 		if(user == null) {
 			return ResponseEntity.notFound().build();
 		}
+
 		UserOrder order = UserOrder.createFromCart(user.getCart());
+		UserOrder userOrder = orderService.save(order);
 
-		UserOrder userOrder = orderRepository.save(order);
-
-		log.debug("=> submit return  "+ userOrder);
-
-		return ResponseEntity.ok(order);
+		return ResponseEntity.ok(userOrder);
 	}
 
 
@@ -58,15 +59,15 @@ public class OrderController {
 		log.info("Get /history/"+username);
 
 
-		User user = userRepository.findByUsername(username);
+		User user = userService.findByUsername(username);
 		if(user == null) {
 
 			log.warn("=> User not found ");
 			return ResponseEntity.notFound().build();
 		}
 
-		log.debug("=> getOrdersForUser return  "+ user);
+		log.info("=> getOrdersForUser return  "+ user);
 
-		return ResponseEntity.ok(orderRepository.findByUser(user));
+		return ResponseEntity.ok(orderService.findByUser(user));
 	}
 }

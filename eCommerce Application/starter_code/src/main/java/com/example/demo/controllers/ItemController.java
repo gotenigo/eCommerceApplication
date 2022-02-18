@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.Service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +22,17 @@ import com.example.demo.model.persistence.repositories.ItemRepository;
 public class ItemController {
 
 	@Autowired
-	private ItemRepository itemRepository;
+	private ItemService itemService;
+
+
+
 	
 	@GetMapping
 	public ResponseEntity<List<Item>> getAllItems() {
 
 		log.debug("Get /api/item ");
 
-		List<Item> itemList= itemRepository.findAll();
+		List<Item> itemList= itemService.findAll();
 
 		log.debug("=> getAllItems return  "+ itemList);
 
@@ -42,7 +46,7 @@ public class ItemController {
 
 		log.debug("Get /api/item/id "+id);
 
-		Optional<Item> item = itemRepository.findById(id);
+		Optional<Item> item = itemService.findById(id);
 
 		log.debug("=> getItemById return  "+ item);
 		return ResponseEntity.of(item);
@@ -56,7 +60,7 @@ public class ItemController {
 		log.debug("Get /api/item/name/"+name);
 
 
-		List<Item> items = itemRepository.findByName(name);
+		List<Item> items = itemService.findByName(name);
 
 		log.debug("=> getItemsByName return  "+ items);
 
