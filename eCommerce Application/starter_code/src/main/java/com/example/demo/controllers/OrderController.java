@@ -41,11 +41,14 @@ public class OrderController {
 
 		User user = userService.findByUsername(username);
 		if(user == null) {
+			log.error("submit failed as username ("+user+") was not found");
 			return ResponseEntity.notFound().build();
 		}
 
 		UserOrder order = UserOrder.createFromCart(user.getCart());
 		UserOrder userOrder = orderService.save(order);
+
+		log.debug("=> submit return  "+ userOrder);
 
 		return ResponseEntity.ok(userOrder);
 	}
@@ -62,11 +65,11 @@ public class OrderController {
 		User user = userService.findByUsername(username);
 		if(user == null) {
 
-			log.warn("=> User not found ");
+			log.error("=> User not found ");
 			return ResponseEntity.notFound().build();
 		}
 
-		log.info("=> getOrdersForUser return  "+ user);
+		log.debug("=> getOrdersForUser return  "+ user);
 
 		return ResponseEntity.ok(orderService.findByUser(user));
 	}

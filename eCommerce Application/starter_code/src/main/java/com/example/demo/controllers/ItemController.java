@@ -30,7 +30,7 @@ public class ItemController {
 	@GetMapping
 	public ResponseEntity<List<Item>> getAllItems() {
 
-		log.debug("Get /api/item ");
+		log.info("Get /api/item ");
 
 		List<Item> itemList= itemService.findAll();
 
@@ -44,7 +44,7 @@ public class ItemController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Item> getItemById(@PathVariable Long id) {
 
-		log.debug("Get /api/item/id "+id);
+		log.info("Get /api/item/id "+id);
 
 		Optional<Item> item = itemService.findById(id);
 
@@ -57,7 +57,7 @@ public class ItemController {
 	@GetMapping("/name/{name}")
 	public ResponseEntity<List<Item>> getItemsByName(@PathVariable String name) {
 
-		log.debug("Get /api/item/name/"+name);
+		log.info("Get /api/item/name/"+name);
 
 
 		List<Item> items = itemService.findByName(name);

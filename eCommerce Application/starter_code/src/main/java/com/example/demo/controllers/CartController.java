@@ -73,7 +73,7 @@ public class CartController {
 
 		Cart cVar = cartService.save(cart);  // we save into the database
 
-		log.info("=> addToCart return  "+ cVar);
+		log.debug("=> addToCart return  "+ cVar);
 
 		return ResponseEntity.ok(cVar);
 	}
@@ -94,6 +94,8 @@ public class CartController {
 		}
 		Optional<Item> item = itemService.findById(request.getItemId());
 		if(!item.isPresent()) {
+			log.error("removeFromCart failed as Item was not found ");
+
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Cart cart = user.getCart();
