@@ -26,7 +26,6 @@ import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.ModifyCartRequest;
 
 
-
 @Slf4j
 @RestController
 @RequestMapping("/api/cart")
@@ -34,6 +33,9 @@ public class CartController {
 	
 	@Autowired
 	private UserService userService;
+
+
+
 	
 	@Autowired
 	private CartService cartService;
@@ -73,7 +75,7 @@ public class CartController {
 
 		Cart cVar = cartService.save(cart);  // we save into the database
 
-		log.debug("=> addToCart return  "+ cVar);
+		log.debug("=> addToCart   return "+ cVar);
 
 		return ResponseEntity.ok(cVar);
 	}
