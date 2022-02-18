@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -279,7 +280,10 @@ public class SareetaApplicationTests {
 
 		Item item2 = new Item("name", new BigDecimal(5), "new product");
 
+		Item item3 = new Item("name", new BigDecimal(6), "new product");
+
 		assertEquals(item,item2);
+		assertEquals(item,item3);
 		assertEquals(item.hashCode(),item2.hashCode());
 
 	}
