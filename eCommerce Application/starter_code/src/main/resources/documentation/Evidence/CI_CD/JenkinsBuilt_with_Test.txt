@@ -1,0 +1,82 @@
+Started by user gg
+Running as SYSTEM
+Building in workspace /var/jenkins_home/workspace/eCommerceApplication
+The recommended git tool is: NONE
+using credential 192cbadc-668e-414e-9478-941a8c4b3690
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/eCommerceApplication/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/gotenigo/eCommerceApplication.git # timeout=10
+Fetching upstream changes from https://github.com/gotenigo/eCommerceApplication.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.34.1'
+using GIT_SSH to set credentials 
+ > git fetch --tags --force --progress -- https://github.com/gotenigo/eCommerceApplication.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 3944319c4edc5e28351d124ce6bff8183f69a35b (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 3944319c4edc5e28351d124ce6bff8183f69a35b # timeout=10
+Commit message: "completed"
+ > git rev-list --no-walk be8539794e90173e8fe42bb9000ba055acd780c3 # timeout=10
+[eCommerceApplication] $ mvn -f "eCommerce Application/starter_code/pom.xml" package
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.example:auth-course >-----------------------
+[INFO] Building auth-course 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ auth-course ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] Copying 21 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ auth-course ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ auth-course ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ auth-course ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.9:test (default-test) @ auth-course ---
+[INFO] Surefire report directory: /var/jenkins_home/workspace/eCommerceApplication/eCommerce Application/starter_code/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.example.demo.controllers.UserControllerTest
+00:49:18.609 [main] INFO com.example.demo.controllers.UserController - POST /api/user/create CreateUserRequest{username='test', password='testPassword', confirmPassword='testPassword'}
+00:49:18.760 [main] DEBUG com.example.demo.controllers.UserController - => createUser return  User{id=0, username='test', password='thisIsHashed', cart=null}
+00:49:18.779 [main] DEBUG com.example.demo.controllers.UserController - => createUser return  <200 OK OK,User{id=0, username='test', password='thisIsHashed', cart=null},[]>
+00:49:18.786 [main] INFO com.example.demo.controllers.UserController - Get /api/user/id/1
+00:49:18.790 [main] DEBUG com.example.demo.controllers.UserController - => findById return  Optional[User{id=0, username='gg', password='password', cart=null}]
+00:49:18.797 [main] INFO com.example.demo.controllers.UserController - Get /api/user/all 
+00:49:18.802 [main] DEBUG com.example.demo.controllers.UserController - => findAll return  [User{id=0, username='gg', password='password', cart=null}]
+00:49:18.804 [main] INFO com.example.demo.controllers.UserController - Get /api/user/gg
+00:49:18.812 [main] DEBUG com.example.demo.controllers.UserController - => findByUserName return  0
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.147 sec
+
+Results :
+
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- maven-war-plugin:3.3.1:war (default-war) @ auth-course ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [auth-course] in [/var/jenkins_home/workspace/eCommerceApplication/eCommerce Application/starter_code/target/auth-course-0.0.1-SNAPSHOT]
+[INFO] Processing war project
+[INFO] Building war: /var/jenkins_home/workspace/eCommerceApplication/eCommerce Application/starter_code/target/auth-course-0.0.1-SNAPSHOT.war
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.4.5:repackage (repackage) @ auth-course ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  19.066 s
+[INFO] Finished at: 2022-02-19T00:49:26Z
+[INFO] ------------------------------------------------------------------------
+Finished: SUCCESS
+
