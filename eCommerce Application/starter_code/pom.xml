@@ -65,7 +65,7 @@
 		</dependency>
 
 
-		<dependency>  <!--  SpringBoot Security  -->
+		<dependency>  <!--  SpringBoot Security -->
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
