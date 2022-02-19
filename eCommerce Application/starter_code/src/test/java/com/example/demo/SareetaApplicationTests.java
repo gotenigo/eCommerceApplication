@@ -94,7 +94,7 @@ public class SareetaApplicationTests {
 
 	@Test
 	public void TestBadLogon() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/addToCart")).andExpect(status().isForbidden());
+		mvc.perform(MockMvcRequestBuilders.get("/addToCart")).andExpect(status().isUnauthorized());
 	}
 
 
