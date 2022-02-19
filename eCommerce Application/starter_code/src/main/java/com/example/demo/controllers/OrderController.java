@@ -41,7 +41,7 @@ public class OrderController {
 
 		User user = userService.findByUsername(username);
 		if(user == null) {
-			log.error("Order submit failed as username ("+user+") was not found");
+			log.error("Order  submit failed as username ("+user+") was not found");
 			return ResponseEntity.notFound().build();
 		}
 
