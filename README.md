@@ -1,6 +1,6 @@
 # eCommerce Application
 
-In this project, I will be demonstrating the security and DevOps skills by completing an eCommerce application.I'll start with a template for the complete application, and my goal will be to take this template and add proper authentication and authorization controls so users can only access their data, and that data can only be accessed in a secure way. 
+In this project, I will be demonstrating the security and DevOps skills by completing an eCommerce application. My goal will be to take add proper authentication/Authorisation  via JWT controls so users can only access their data, and that data can only be accessed in a secure way. 
 
 ## Project Template
 The template is written in Java using Spring Boot, Hibernate ORM, and the H2 database. 
