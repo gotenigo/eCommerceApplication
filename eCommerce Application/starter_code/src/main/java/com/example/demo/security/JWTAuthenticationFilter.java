@@ -1,6 +1,7 @@
 package com.example.demo.security;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,11 +10,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter; // "5": "org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter",
 
 import com.auth0.jwt.JWT;
@@ -45,16 +50,19 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
  *
  *
  **********************/
+@Slf4j
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    //@Autowired
+    @Autowired
 	private AuthenticationManager authenticationManager;
 
 
     //Constructor
-
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
+        super.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler());
+        super.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler());
+        super.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler());
     }
 
 
@@ -74,7 +82,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             credentials.getPassword(),
                             new ArrayList<>()));
     	} catch (IOException e) {
+
+            log.error("Problem with Login, user trying to login with invalid input");
     		throw new RuntimeException(e);
+
+            //throw new Exception(e);
+            //return null;
     	}
     }
 
@@ -97,6 +110,34 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(HMAC512(SecurityConstants.SECRET.getBytes()));
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
     }
+
+
+
+
+
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse res, AuthenticationException failed) throws IOException, ServletException {
+        res.addHeader("Access-Control-Allow-Origin", "*");
+        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode message = mapper.createObjectNode();
+        message.put("success", false);
+        message.put("message", "Invalid credentials");
+        log.error("Invalid credential !");
+        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(message);
+
+        PrintWriter out = res.getWriter();
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+        out.print(json);
+        out.flush();
+    }
+
+
+
+
+
 
 
 }
