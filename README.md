@@ -1,6 +1,6 @@
 # eCommerce Application - Spring Security + JWT
 
-In this project, I will be demonstrating the security and DevOps skills by completing an eCommerce application. My goal will be to take add proper authentication/Authorisation  via JWT controls so users can only access their data, and that data can only be accessed in a secure way. 
+In this project, I will be demonstrating the security and DevOps skills by completing an eCommerce application. My goal will be to add a proper authentication/Authorisation  via JWT controls so users can only access their data, and that data can only be accessed in a secure way. 
 
 ## Project Template
 The template is written in Java using Spring Boot, Hibernate ORM, and the H2 database. 
